@@ -1,4 +1,4 @@
-<img width<img width="1434" height="713" alt="Screenshot 2025-07-12 at 3 44 59 AM" src="https://github.com/user-attachments/assets/8e9b94fe-a1cc-41a2-8d0e-0e953b15b150" />
+<img width="1434" height="713" alt="Screenshot 2025-07-12 at 3 44 59 AM" src="https://github.com/user-attachments/assets/8e9b94fe-a1cc-41a2-8d0e-0e953b15b150" />
 
 # 🎉 Birdy - The Birthday Card Creator 🐦
 
