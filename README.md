@@ -101,6 +101,7 @@ Add a message and DOB
 Click "Generate" to receive a card with music & memes
 
 Save or share the card!
+
 ---
 
 ## 🧪 Future Enhancements
@@ -113,6 +114,7 @@ Mobile responsive design
 Export to PDF
 
 Login and save card history
+
 ---
 
 ## 💖 Creator
