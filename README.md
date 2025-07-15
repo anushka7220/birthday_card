@@ -45,11 +45,17 @@ These personalized additions bring a new level of delight and uniqueness to each
 
 ## 📁 Project Structure
 ├── birthday_card/ # Django App
+
 ├── ml_engine/ # ML logic: music & meme generation
+
 ├── manage.py
+
 ├── card
+
 ├── templates/ # HTML Templates
+
 │ ├── static/ # CSS, JS, Images
+
 ├── users
 
 
@@ -63,12 +69,6 @@ These personalized additions bring a new level of delight and uniqueness to each
 - **Sentiment & Context Analysis** for generating memes (`cardiffnlp/twitter-roberta-base-sentiment`)
 - **Song Matching** model to suggest tunes based on input text/emotion
 - Upcoming: 🎤 Text-to-Speech and 🎥 Meme GIF generation
-
----
-
-## 🖼️ Sneak Peek
-
-![Card Preview](static/card/images/sample_card.png)
 
 ---
 
@@ -101,8 +101,9 @@ Add a message and DOB
 Click "Generate" to receive a card with music & memes
 
 Save or share the card!
+---
 
-🧪 Future Enhancements
+## 🧪 Future Enhancements
 Drag & drop meme/music positioning
 
 Text-to-Speech birthday wishes
@@ -112,6 +113,7 @@ Mobile responsive design
 Export to PDF
 
 Login and save card history
+---
 
 ## 💖 Creator
 Anushka Sharma
