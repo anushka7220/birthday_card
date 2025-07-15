@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset="UTF-8" />
+  <title>Birthday Card Creator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+      body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg,rgb(194, 233, 244), #f6e7b4);
+  transition: background 0.5s ease;
+}
+body:hover {
+  background: linear-gradient(135degrgb(194, 233, 244), #fff6d8);
+}
+
+
+
+    /* Cloud Container - Above buttons but below card */
+    .cloud-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .cloud {
+      position: absolute;
+      background: #87CEEB;
+      border-radius: 50%;
+      filter: blur(8px);
+      opacity: 0.8;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    .cloud:before,
+    .cloud:after,
+    .cloud .puff-down {
+      content: '';
+      position: absolute;
+      background: #87CEEB;
+      border-radius: 50%;
+      filter: blur(1px);
+    }
+
+    @keyframes moveCloud {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(150vw); }
+    }
+
+    /* Cloud individual classes */
+    .cloud1 { width: 200px; height: 80px; top: 5%; left: -20%; animation: moveCloud 20s infinite; }
+    .cloud2 { width: 180px; height: 60px; top: 10%; left: -25%; animation: moveCloud 25s infinite 1s; }
+    .cloud3 { width: 220px; height: 80px; top: 15%; left: -30%; animation: moveCloud 18s infinite 2s; }
+    .cloud4 { width: 200px; height: 100px; top: 20%; left: -15%; animation: moveCloud 22s infinite 3s; }
+    .cloud5 { width: 150px; height: 50px; top: 25%; left: -35%; animation: moveCloud 30s infinite 4s; }
+    .cloud6 { width: 170px; height: 55px; top: 30%; left: -40%; animation: moveCloud 15s infinite 5s; }
+    .cloud7 { width: 190px; height: 65px; top: 35%; left: -10%; animation: moveCloud 28s infinite 6s; }
+    .cloud8 { width: 210px; height: 75px; top: 40%; left: -45%; animation: moveCloud 20s infinite 7s; }
+    .cloud9 { width: 130px; height: 42px; top: 45%; left: -50%; animation: moveCloud 25s infinite 8s; }
+    .cloud10 { width: 230px; height: 85px; top: 50%; left: -20%; animation: moveCloud 18s infinite 9s; }
+    .cloud11 { width: 140px; height: 45px; top: 55%; left: -55%; animation: moveCloud 30s infinite 10s; }
+    .cloud12 { width: 240px; height: 88px; top: 60%; left: -60%; animation: moveCloud 22s infinite 11s; }
+    .cloud13 { width: 160px; height: 52px; top: 65%; left: -25%; animation: moveCloud 15s infinite 12s; }
+    .cloud14 { width: 250px; height: 90px; top: 70%; left: -65%; animation: moveCloud 28s infinite 13s; }
+    .cloud15 { width: 170px; height: 55px; top: 75%; left: -70%; animation: moveCloud 20s infinite 14s; }
+    .cloud16 { width: 260px; height: 95px; top: 80%; left: -30%; animation: moveCloud 25s infinite 15s; }
+    .cloud17 { width: 180px; height: 60px; top: 85%; left: -75%; animation: moveCloud 18s infinite 16s; }
+    .cloud18 { width: 270px; height: 98px; top: 90%; left: -80%; animation: moveCloud 30s infinite 17s; }
+    .cloud19 { width: 190px; height: 65px; top: 95%; left: -35%; animation: moveCloud 22s infinite 18s; }
+    .cloud20 { width: 280px; height: 100px; top: 10%; left: -85%; animation: moveCloud 15s infinite 19s; }
+
+    /* Puff shapes */
+    .cloud1:before, .cloud2:before, .cloud3:before, .cloud4:before, .cloud5:before, .cloud6:before, .cloud7:before, .cloud8:before, .cloud9:before, .cloud10:before, .cloud11:before, .cloud12:before, .cloud13:before, .cloud14:before, .cloud15:before, .cloud16:before, .cloud17:before, .cloud18:before, .cloud19:before, .cloud20:before {
+      width: 40%;
+      height: 100%;
+      top: -30%;
+      left: 15%;
+    }
+
+    .cloud1:after, .cloud2:after, .cloud3:after, .cloud4:after, .cloud5:after, .cloud6:after, .cloud7:after, .cloud8:after, .cloud9:after, .cloud10:after, .cloud11:after, .cloud12:after, .cloud13:after, .cloud14:after, .cloud15:after, .cloud16:after, .cloud17:after, .cloud18:after, .cloud19:after, .cloud20:after {
+      width: 30%;
+      height: 60%;
+      top: -15%;
+      right: 15%;
+    }
+
+    .cloud .puff-down {
+      width: 55%;
+      height: 70%;
+      bottom: -20%;
+      left: 30%;
+    }
+
+    /* Content */
+    .content-wrapper {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+   .card-form-container {
+  position: relative;
+  z-index: 30; /* Highest z-index - on top of everything */
+  background: 
+    linear-gradient(180deg,rgb(213, 156, 112) 0%, #8e5f3d 100%),
+    url("{% static 'card/images/buried.png' %}");
+  background-size:  50%%;
+  background-blend-mode: overlay;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 30px 20px;
+  width: 500px;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  transition: box-shadow 0.3s, border-color 0.3s;
+  overflow: hidden;
+}
+
+.card-form-container:hover {
+  box-shadow:
+    0 0 15px rgba(218, 165, 32, 0.6),
+    0 10px 35px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(218, 165, 32, 0.7);
+}
+
+
+    .form-header {
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 0 5px;
+    }
+
+    .form-header h2,
+    .form-header p {
+      word-break: break-word;
+      max-width: 100%;
+      overflow-wrap: break-word;
+      color: #fff;
+    }
+
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input,
+    textarea,
+    button {
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    button {
+      background-color: #87CEEB;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #6cb8d6;
+    }
+
+    /* Buttons - lowest z-index */
+    .top-right-btns {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      z-index: 5;
+    }
+
+    .profile-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: rgb(166,123,91);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-right: 0;
+      border: 2px solid #fff;
+    }
+
+    .profile-circle svg {
+      display: block;
+    }
+
+    .profile-username {
+      display: none;
+    }
+
+    .logout-btn {
+      border-radius: 30px;
+      background-color:rgb(166,123,91);
+      color: white;
+      text-decoration: none;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-size: 16px;
+      padding: 10px 20px;
+      transition: background-color 0.3s, color 0.3s;
+      border: none;
+      margin-left: 0;
+    }
+
+    .logout-btn:hover {
+      background-color:rgba(212, 150, 92, 0.86);
+      color: #fff;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      .card-form-container {
+        width: 95vw;
+        min-width: unset;
+        padding: 18px 4vw;
+      }
+      .top-right-btns {
+        top: 10px;
+        right: 10px;
+        gap: 8px;
+      }
+      .profile-circle {
+        width: 36px;
+        height: 36px;
+      }
+      .logout-btn {
+        font-size: 14px;
+        padding: 8px 12px;
+      }
+    }
+     .nest-container {
+  position: absolute;
+  top: 10px;
+  right: 970px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0px; /* space between image and title */
+  z-index: 5;
+  pointer-events: none;
+}
+
+.nest-container img {
+  width: 400px; /* adjust size as needed */
+  height: auto;
+}
+
+.nest-container .site-title {
+  display: inline-block;
+  font-family: fantasy, cursive, sans-serif;
+  font-size: 70px;
+  color: rgba(92, 51, 23, 0.87);
+  text-shadow: 1px 1px #fff;
+  margin-top: 20px;
+  line-height: 1;
+}
+
+  </style>
+</head>
+<body>
+  <!-- Buttons (z-index: 5) -->
+  <div class="top-right-btns">
+    <a href="{% url 'profile' %}" class="profile-circle" title="Profile">
+      <svg width="24" height="24" viewBox="0 0 20 20" fill="none" style="vertical-align: middle;">
+        <circle cx="10" cy="7" r="5" stroke="#fff" stroke-width="2" fill="rgb(166,123,91)" />
+        <rect x="3" y="13" width="14" height="6" rx="3" stroke="#fff" stroke-width="2" fill="rgb(166,123,91)" />
+      </svg>
+    </a>
+   <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+  </div>
+
+  <!-- Clouds (z-index: 10) -->
+  <div class="cloud-container">
+    <div class="cloud cloud1"><div class="puff-down"></div></div>
+    <div class="cloud cloud2"><div class="puff-down"></div></div>
+    <div class="cloud cloud3"><div class="puff-down"></div></div>
+    <div class="cloud cloud4"><div class="puff-down"></div></div>
+    <div class="cloud cloud5"><div class="puff-down"></div></div>
+    <div class="cloud cloud6"><div class="puff-down"></div></div>
+    <div class="cloud cloud7"><div class="puff-down"></div></div>
+    <div class="cloud cloud8"><div class="puff-down"></div></div>
+    <div class="cloud cloud9"><div class="puff-down"></div></div>
+    <div class="cloud cloud10"><div class="puff-down"></div></div>
+    <div class="cloud cloud11"><div class="puff-down"></div></div>
+    <div class="cloud cloud12"><div class="puff-down"></div></div>
+    <div class="cloud cloud13"><div class="puff-down"></div></div>
+    <div class="cloud cloud14"><div class="puff-down"></div></div>
+    <div class="cloud cloud15"><div class="puff-down"></div></div>
+    <div class="cloud cloud16"><div class="puff-down"></div></div>
+    <div class="cloud cloud17"><div class="puff-down"></div></div>
+    <div class="cloud cloud18"><div class="puff-down"></div></div>
+    <div class="cloud cloud19"><div class="puff-down"></div></div>
+    <div class="cloud cloud20"><div class="puff-down"></div></div>
+
+    <div class="nest-container">
+  <img src="{% static 'card/images/nest.png' %}" alt="Nest" />
+  <span class="site-title">Birdy</span>
+</div>
+
+
+</div>
+  <!-- Card content (z-index: 30) -->
+  <div class="content-wrapper">
+    <div class="card-form-container">
+      <div class="form-header">
+        <h2>Birthday Card Creator</h2>
+      </div>
+      {% block content %}{% endblock %} 
+    </div>
+  </div>
+</body>
+</html>

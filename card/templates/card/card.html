@@ -1,0 +1,105 @@
+{% extends 'card/base.html' %}
+
+{% block content %}
+<div class="card-preview-container">
+    <div class="birthday-card">
+        {% if card.theme == 'balloons' %}
+        <div class="theme-image balloons"></div>
+        {% elif card.theme == 'cake' %}
+        <div class="theme-image cake"></div>
+        {% elif card.theme == 'gifts' %}
+        <div class="theme-image gifts"></div>
+        {% else %}
+        <div class="theme-image nature"></div>
+        {% endif %}
+        
+        <h1 class="card-title">Happy Birthday!</h1>
+        
+        <div class="card-emojis">{{ card.emojis }}</div>
+        
+        <div class="card-message">
+            {{ card.message }}
+        </div>
+        
+        <div class="card-signature">
+            From {{ card.sender.username }}
+        </div>
+    </div>
+</div>
+
+<style>
+    .card-preview-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+    
+    .birthday-card {
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        padding: 40px;
+        width: 100%;
+        max-width: 600px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .theme-image {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 20px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    
+    .balloons {
+        background-image: url('https://cdn.pixabay.com/photo/2016/11/18/15/44/birthday-1835441_960_720.png');
+    }
+    
+    .cake {
+        background-image: url('https://cdn.pixabay.com/photo/2017/05/04/21/23/cupcake-2285209_960_720.png');
+    }
+    
+    .gifts {
+        background-image: url('https://cdn.pixabay.com/photo/2016/11/22/19/08/gift-1850178_960_720.png');
+    }
+    
+    .nature {
+        background-image: url('https://cdn.pixabay.com/photo/2016/11/29/08/41/apple-1868496_960_720.jpg');
+    }
+    
+    .card-title {
+        color: {{ card.color }};
+        font-size: 3em;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-emojis {
+        font-size: 3em;
+        margin: 20px 0;
+        line-height: 1.2;
+    }
+    
+    .card-message {
+        font-size: 1.5em;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        color: #555;
+    }
+    
+    .card-signature {
+        font-style: italic;
+        font-size: 1.3em;
+        margin-top: 30px;
+        color: {{ card.color }};
+        font-weight: bold;
+    }
+</style>
+{% endblock %}

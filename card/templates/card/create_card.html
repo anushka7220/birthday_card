@@ -1,0 +1,1128 @@
+{% extends 'card/base.html' %}
+{% load static %}  
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+<div class="card-creator-container">
+    <div class="card-creator">
+        <!-- Step 1: Color Selection -->
+        <div class="step step-1 active">
+            <h3 style="color: white;">Choose a Card Color</h3>
+            <div class="color-selection">
+                <div class="color-option active" data-color="#FFC5D3" style="background-color: #FFC5D3;"></div>
+                <div class="color-option" data-color="#9EECEB" style="background-color:rgb(179, 246, 244);"></div>
+                <div class="color-option" data-color="#FEFFC1" style="background-color: #FEFFC1;"></div>
+                <div class="color-option" data-color="#DCF0CB" style="background-color: #DCF0CB;"></div>
+            </div>
+            <div class="navigation">
+                <div class="next-button">Next →</div>
+            </div>
+        </div>
+        <!-- Add this inside your card-creator div, right after the color selection step -->
+         <!-- Replace the previous birdy-guide div with this -->
+<div class="birdy-guide">
+    <div class="birdy-message">Pick a pretty color for your card!</div>
+    <div class="birdy-container">
+        <img class="birdy-image" src="{% static 'card/images/bird1.png' %}" alt="Birdy Guide">
+    </div>
+</div>
+        <!-- Step 2: Border Selection -->
+        <div class="step step-2">
+            <h3 style="color: white;">Choose a Border Style</h3>
+            <div class="border-selection">
+                <div class="border-option active" data-border="none">
+                    <div class="border-preview no-border"></div>
+                    <div class="border-name">No Border</div>
+                </div>
+                <div class="border-option" data-border="flower">
+                    <div class="border-preview" style="background-image: url('{% static 'card/images/flower.png' %}')"></div>
+                    <div class="border-name">Flower</div>
+                </div>
+                <div class="border-option" data-border="balloon">
+                    <div class="border-preview" style="background-image: url('{% static 'card/images/balloon.png' %}')"></div>
+                    <div class="border-name">Balloon</div>
+                </div>
+                <div class="border-option" data-border="heart">
+                    <div class="border-preview" style="background-image: url('{% static 'card/images/heart.png' %}')"></div>
+                    <div class="border-name">Heart</div>
+                </div>
+                <div class="border-option" data-border="cupcake">
+                    <div class="border-preview" style="background-image: url('{% static 'card/images/cupcake.png' %}')"></div>
+                    <div class="border-name">Cupcake</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <div class="prev-button">← Previous</div>
+                <div class="next-button">Next →</div>
+            </div>
+        </div>
+
+        <!-- Step 3: Date Selection -->
+        <div class="step step-3">
+            <h3 style="color: white;">Select Date</h3>
+            <input type="date" class="date-input" required>
+            <div class="navigation">
+                <div class="prev-button">← Previous</div>
+                <div class="next-button">Next →</div>
+            </div>
+        </div>
+
+        <!-- Step 4: Image Upload -->
+        <div class="step step-4">
+            <h3 style="color: white;">Upload a Photo (Optional)</h3>
+            <div id="drop-area" class="drop-area">
+                <p class="drop-text">Drag & drop an image here, or <span class="file-select">browse</span></p>
+                <input type="file" id="fileElem" accept="image/*" style="display:none;">
+            </div>
+            <div id="image-preview" class="image-preview">
+                <img id="preview-img" src="#" alt="Preview">
+                <button type="button" class="remove-image">Remove Image</button>
+            </div>
+            <div class="navigation">
+                <div class="prev-button">← Previous</div>
+                <div class="next-button">Next →</div>
+            </div>
+        </div>
+
+        <!-- Step 5: Message and Emoji -->
+        <div class="step step-5">
+            <h3 style="color: white;">Write Your Message</h3>
+
+            <textarea class="message-input" name="message" placeholder="Write your birthday message here..." required></textarea>
+
+            <div class="recommendations-section" style="margin-top: 20px;">
+                <button id="recommend-button" type="button">Recommend Meme and Song</button>
+            </div>
+
+            <div id="recommendation-results" style="margin-top: 20px; color: white;"></div>
+
+            <div class="navigation">
+                <div class="prev-button">← Previous</div>
+                <div class="next-button">Create Card →</div>
+            </div>
+        </div>
+
+
+        <!-- Step 6: Cupcake Animation -->
+        <div class="step step-6">
+            <h3 style="color: white;">Blow off the candle!</h3>
+            <div class="cupcake-animation-container">
+                <img id="cupcake-animation" src="{% static 'card/images/cupcake1.png' %}" alt="Cupcake Animation">
+            </div>
+            <div class="cupcake-message" style="display: none;">
+                <div class="sparkle-message">
+                    <p class="level-up-text">You have levelled up kiddo!</p>
+                   
+                </div>
+                <div class="cupcake-buttons">
+                    <button class="view-card-button">Want to see card</button>
+                    <button class="send-card-button">Send card</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 7: Preview -->
+        <div class="step step-7">
+            <h3 style="color: white;">Your Birthday Card</h3>
+            <div class="card-preview-container">
+                <div class="card-navigation prev-card">←</div>
+                <div class="card-preview card-front active"></div>
+                <div class="card-preview card-back"></div>
+                <div class="card-navigation next-card">→</div>
+            </div>
+            <div class="navigation">
+                <div class="prev-button">← Back</div>
+                <button class="download-button">Download Card</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card-creator-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.card-creator {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+}
+
+.step {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.step.active {
+    display: flex;
+}
+
+.color-selection, .emoji-selection, .border-selection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.color-option {
+    width: 100%;
+    height: 100px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.emoji-option {
+    width: 100%;
+    height: 60px;
+    border-radius: 8px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+}
+
+.border-option {
+    width: 100%;
+    height: 120px;
+    border-radius: 8px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 10px;
+    text-align: center;
+}
+
+.border-preview {
+    width: 100%;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 5px;
+}
+
+.border-preview.no-border {
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #888;
+}
+
+.border-name {
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+.color-option:hover, .emoji-option:hover, .border-option:hover {
+    transform: scale(1.02);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.color-option.active, .emoji-option.active, .border-option.active {
+    transform: scale(1.03);
+    box-shadow: 0 0 0 3px #87CEEB;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.prev-button, .next-button, .download-button {
+    padding: 8px 15px;
+    background-color: #87CEEB;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 14px;
+}
+
+.prev-button:hover, .next-button:hover, .download-button:hover {
+    background-color: #6cb8d6;
+}
+
+.date-input, .message-input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.message-input {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.card-preview-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    position: relative;
+}
+
+.card-preview {
+    width: 350px;
+    height: 260px;
+    border-radius: 8px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    position: relative;
+    background-color:rgb(244, 178, 183); /* fallback default */
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.card-preview.active {
+    display: flex;
+}
+
+.card-navigation {
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    color: #87CEEB;
+    user-select: none;
+}
+
+.card-navigation:hover {
+    color: #6cb8d6;
+}
+
+.card-border-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.card-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #333;
+    padding: 20px;
+}
+
+.drop-area {
+    border: 2px dashed #87CEEB;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    color: #87CEEB;
+    background: #fff;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background 0.2s, border-color 0.2s;
+}
+.drop-area.highlight {
+    background: #e0f7fa;
+    border-color: #00bcd4;
+}
+.drop-area .file-select {
+    color: #0077b6;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.image-preview {
+    margin-top: 10px;
+    text-align: center;
+    display: none;
+}
+.image-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.remove-image {
+    padding: 5px 10px;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.remove-image:hover {
+    background-color: #ff5252;
+}
+
+@media (max-width: 600px) {
+    .card-form-container {
+        min-height: 380px;
+    }
+    
+    .color-option, .emoji-option, .border-option {
+        height: 80px;
+    }
+    
+    .emoji-option {
+        font-size: 30px;
+    }
+    
+    .border-preview {
+        height: 60px;
+    }
+}
+.fixed-shape-wrapper {
+    width: 110px;
+    height: 130px;
+    overflow: hidden;
+    border-radius: 8px; /* optional: slightly rounded corners, or use 0 for perfect square */
+    margin: 0 auto;
+}
+
+.fixed-shape-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.card-back {
+    background-image: url("{% static 'card/images/sticky.png' %}");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.card-back {
+    background-color: #fff5cc; /* soft sticky-note color */
+    background-image: url("{% static 'card/images/sticky.png' %}");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.sticky-note-container {
+    position: relative;
+    width: 250px;         /* adjust size as desired */
+    height: 200px;
+    margin: 0 auto;
+}
+
+.sticky-note-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.sticky-note-message {
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    width: 80%;
+    height: 70%;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+.birthday-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 36px;
+    color: rgb(54,69,79);
+    margin-bottom: 10px;
+}
+
+.birthday-date {
+    font-family: 'Great Vibes', cursive;
+    font-size: 18px;
+    color: rgb(54,69,79);
+    margin-bottom: 15px;
+}
+.cupcake-animation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.cupcake-animation-container img {
+    width: 300px;
+    height: auto;
+    object-fit: contain;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+
+.cupcake-animation-container img:hover {
+    transform: scale(1.05);
+}
+
+
+.cupcake-message {
+    text-align: center;
+    margin-top: 0px;
+}
+
+.cupcake-buttons {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.cupcake-buttons button {
+    padding: 10px 20px;
+    background-color: #87CEEB;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.cupcake-buttons button:hover {
+    background-color: #6cb8d6;
+}
+
+/* Birdy Guide Styles */
+.birdy-guide {
+    position: fixed;
+    right: 330px;
+    bottom: 430px;
+    width: 180px;
+    display: none;
+    z-index: 999;
+    animation: birdyEntrance 0.7s ease-out forwards;
+}
+
+
+.birdy-container {
+    width: 120px;
+    height: 120px;
+    margin-top: 10px;
+}
+.birdy-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    animation: birdyTalk 2s infinite ease-in-out;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+    transition: transform 0.3s ease;
+}
+
+
+.birdy-message {
+    position: absolute;
+    top: -60px;
+    left: 20%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: #333;
+    padding: 8px 12px;
+    background-color: #fff9c4;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(255, 235, 59, 0.6); /* glowing yellow */
+    min-width: 120px;
+    font-size: 14px;
+    animation: glowPulse 2s infinite ease-in-out;
+}
+
+
+.birdy-message:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: #fff9c4 transparent;
+}
+
+@keyframes birdyTalk {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-3px) rotate(2deg); }
+    50% { transform: translateY(0) rotate(0deg); }
+    75% { transform: translateY(-2px) rotate(-2deg); }
+}
+
+/* Adjust the card-creator container to make space for Birdy */
+.card-creator {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+}
+@keyframes birdyEntrance {
+  0% {
+    opacity: 0;
+    transform: translateX(50px) scale(0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(0px) scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(255, 235, 59, 0.6);
+  }
+  50% {
+    box-shadow: 0 4px 12px rgba(255, 235, 59, 0.9);
+  }
+}
+
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Birthday Card Creator Loaded');
+
+    // --------- GLOBAL STATE ---------
+    let currentStep = 1;
+    let cupcakeAnimating = false;
+
+    const cupcakeFrames = [
+        "{% static 'card/images/cupcake1.png' %}",
+        "{% static 'card/images/cupcake2.png' %}",
+        "{% static 'card/images/cupcake3.png' %}",
+        "{% static 'card/images/cupcake4.png' %}",
+        "{% static 'card/images/cupcake5.png' %}"
+    ];
+
+    const stickyNoteUrl = "{% static 'card/images/note.png' %}";
+
+    const cardData = {
+        color: "#FFC5D3",
+        border: "none",
+        emoji: "🍩🧁🍭",
+        date: "",
+        message: "",
+        image: null,
+    };
+
+    // --------- STEP NAVIGATION ---------
+    function goToStep(stepNum) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.querySelector('.step-' + stepNum).classList.add('active');
+        currentStep = stepNum;
+    }
+
+    document.querySelectorAll('.next-button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (validateCurrentStep()) {
+                if (currentStep === 5) {
+                    goToStep(6);
+                } else if (currentStep === 6) {
+                    generateCard();
+                    goToStep(7);
+                } else {
+                    goToStep(currentStep + 1);
+                }
+            }
+        });
+    });
+
+    document.querySelectorAll('.prev-button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            goToStep(Math.max(1, currentStep - 1));
+        });
+    });
+
+    // --------- COLOR SELECTION ---------
+    document.querySelectorAll('.color-option').forEach(option => {
+        option.addEventListener('click', () => {
+            document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+            option.classList.add('active');
+            cardData.color = option.dataset.color;
+        });
+    });
+
+    // --------- BORDER SELECTION ---------
+    document.querySelectorAll('.border-option').forEach(option => {
+        option.addEventListener('click', () => {
+            document.querySelectorAll('.border-option').forEach(o => o.classList.remove('active'));
+            option.classList.add('active');
+            cardData.border = option.dataset.border;
+        });
+    });
+
+    // --------- EMOJI SELECTION ---------
+    document.querySelectorAll('.emoji-option').forEach(option => {
+        option.addEventListener('click', () => {
+            document.querySelectorAll('.emoji-option').forEach(o => o.classList.remove('active'));
+            option.classList.add('active');
+            cardData.emoji = option.dataset.emoji;
+        });
+    });
+
+    // --------- DATE SELECTION ---------
+    document.querySelector('.date-input').addEventListener('change', (e) => {
+        cardData.date = e.target.value;
+    });
+
+    // --------- MESSAGE INPUT ---------
+    document.querySelector('.message-input').addEventListener('input', (e) => {
+        cardData.message = e.target.value;
+    });
+
+    // --------- IMAGE UPLOAD ---------
+    const dropArea = document.querySelector('#drop-area');
+    const fileElem = document.querySelector('#fileElem');
+    const previewImg = document.querySelector('#preview-img');
+    const imagePreview = document.querySelector('#image-preview');
+    const dropText = document.querySelector('.drop-text');
+
+    dropArea.addEventListener('click', (e) => {
+        if (e.target.classList.contains('file-select')) {
+            fileElem.click();
+        }
+    });
+
+    fileElem.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+    });
+
+    dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropArea.classList.add('highlight');
+    });
+    dropArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('highlight');
+    });
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('highlight');
+        handleFiles(e.dataTransfer.files);
+    });
+
+    function handleFiles(files) {
+        if (files.length > 0) {
+            const file = files[0];
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImg.src = e.target.result;
+                    cardData.image = e.target.result;
+                    imagePreview.style.display = 'block';
+                    dropText.textContent = 'Drag & drop another image or click to browse';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please upload an image file!');
+            }
+        }
+    }
+
+    document.querySelector('.remove-image').addEventListener('click', () => {
+        cardData.image = null;
+        previewImg.src = '#';
+        imagePreview.style.display = 'none';
+        dropText.textContent = 'Drag & drop an image here, or browse';
+    });
+
+    // --------- CUPCAKE ANIMATION ---------
+    document.querySelector('#cupcake-animation').addEventListener('click', () => {
+        if (cupcakeAnimating) return;
+        cupcakeAnimating = true;
+        let index = 0;
+
+        const interval = setInterval(() => {
+            document.querySelector('#cupcake-animation').src = cupcakeFrames[index];
+            index++;
+            if (index >= cupcakeFrames.length) {
+                clearInterval(interval);
+                cupcakeAnimating = false;
+                completeCupcakeAnimation();
+            }
+        }, 300);
+    });
+
+    function completeCupcakeAnimation() {
+        document.querySelector('.cupcake-message').style.display = 'block';
+        confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+
+        // Optional sound
+        try {
+            const sound = new Audio("{% static 'card/sounds/success.mp3' %}");
+            sound.play().catch(e => console.log("Audio play prevented:", e));
+        } catch (e) {
+            console.log("Audio error:", e);
+        }
+    }
+
+    // --------- EVENT DELEGATION FOR DYNAMIC BUTTONS ---------
+    document.body.addEventListener('click', (e) => {
+        if (e.target.classList.contains('view-card-button')) {
+            goToStep(7);
+            generateCard();
+        } else if (e.target.classList.contains('send-card-button')) {
+            alert('Card sent! (Implement actual sending logic here)');
+        } else if (e.target.classList.contains('next-card')) {
+            showCardBack();
+        } else if (e.target.classList.contains('prev-card')) {
+            showCardFront();
+        } else if (e.target.classList.contains('download-button')) {
+            alert('Download feature not implemented yet.');
+        }
+    });
+
+    // --------- CARD PREVIEW GENERATION ---------
+    function generateCard() {
+        const cardFront = document.querySelector('.card-front');
+        const cardBack = document.querySelector('.card-back');
+
+        cardFront.innerHTML = '';
+        cardBack.innerHTML = '';
+
+        // Front content
+        cardFront.style.backgroundColor = cardData.color;
+        let frontHTML = `
+            <div class="card-content">
+                <h2 class="birthday-title">Happy Birthday!</h2>
+                <p class="birthday-date">${formatDate(cardData.date)}</p>
+        `;
+
+        if (cardData.image) {
+            frontHTML += `
+                <div class="fixed-shape-wrapper" style="margin-bottom: 15px;">
+                    <img src="${cardData.image}" />
+                </div>
+            `;
+        }
+
+        frontHTML += `</div>`;
+
+        // Add border overlay if any
+        if (cardData.border && cardData.border !== 'none') {
+            const overlay = document.createElement('div');
+            overlay.classList.add('card-border-overlay');
+            overlay.style.backgroundImage = `url('{% static 'card/images/' %}${cardData.border}.png')`;
+            overlay.style.backgroundSize = 'cover';
+            cardFront.appendChild(overlay);
+        }
+
+        cardFront.insertAdjacentHTML('beforeend', frontHTML);
+
+        // Back content
+        cardBack.style.backgroundColor = cardData.color;
+        cardBack.innerHTML = `
+            <div class="card-content">
+                <div style="font-size: 50px; margin-bottom: 15px;">
+                    ${cardData.emoji || '🎉'}
+                </div>
+                <div class="sticky-note-container">
+                    <img src="${stickyNoteUrl}" alt="Sticky Note" />
+                    <div class="sticky-note-message">
+                        ${cardData.message || 'Wishing you a wonderful birthday!'}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        showCardFront();
+    }
+
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        try {
+            const options = { month: 'long', day: 'numeric', year: 'numeric' };
+            return new Date(dateStr).toLocaleDateString(undefined, options);
+        } catch (e) {
+            return dateStr;
+        }
+    }
+
+    function showCardFront() {
+        document.querySelector('.card-back').classList.remove('active');
+        document.querySelector('.card-front').classList.add('active');
+    }
+
+    function showCardBack() {
+        document.querySelector('.card-front').classList.remove('active');
+        document.querySelector('.card-back').classList.add('active');
+    }
+
+    // --------- VALIDATION ---------
+    function validateCurrentStep() {
+        if (currentStep === 3) {
+            if (!cardData.date) {
+                alert('Please select a date!');
+                return false;
+            }
+        }
+        if (currentStep === 5) {
+            if (!cardData.message.trim()) {
+                alert('Please write a message!');
+                return false;
+            }
+        }
+        return true;
+    }
+    // --------- BIRDY GUIDE ---------
+    // Add these to your global variables
+const birdyImages = [
+    "{% static 'card/images/bird1.png' %}",
+    "{% static 'card/images/bird2.png' %}",
+    "{% static 'card/images/bird3.png' %}",
+  
+];
+
+const birdyMessages = [
+    "Choose a color that makes you happy!",
+    "This pink is perfect for birthdays!",
+    "Blue like the sky would be lovely!",
+    "Yellow brings sunshine to your card!",
+    "Green reminds me of springtime!",
+    "Pick one that matches your personality!"
+];
+
+
+// Add this function to animate Birdy
+function animateBirdy() {
+    const birdyElement = document.querySelector('.birdy-guide');
+    const birdyImage = document.querySelector('.birdy-image');
+    const birdyMessage = document.querySelector('.birdy-message');
+    
+    // Show Birdy
+    birdyElement.style.display = 'block';
+    
+    // Animate talking
+    let frame = 0;
+    const talkInterval = setInterval(() => {
+        birdyImage.src = birdyImages[frame % birdyImages.length];
+        birdyImage.style.animation = 'birdyTalk 0.5s ease-in-out';
+        frame++;
+        
+        // Remove animation after it completes to allow it to restart
+        setTimeout(() => {
+            birdyImage.style.animation = '';
+        }, 900);
+    }, 1600);
+    
+    // Change message randomly
+    const messageInterval = setInterval(() => {
+        birdyMessage.textContent = birdyMessages[Math.floor(Math.random() * birdyMessages.length)];
+    }, 3000);
+    
+    // Return function to stop animations
+    return () => {
+        clearInterval(talkInterval);
+        clearInterval(messageInterval);
+        birdyElement.style.display = 'none';
+    };
+}
+
+// Update your goToStep function to show/hide Birdy
+function goToStep(stepNum) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.querySelector('.step-' + stepNum).classList.add('active');
+    currentStep = stepNum;
+    
+    // Show Birdy only on color selection step
+    if (currentStep === 1) {
+        if (window.stopBirdyAnimation) window.stopBirdyAnimation();
+        window.stopBirdyAnimation = animateBirdy();
+    } else if (window.stopBirdyAnimation) {
+        window.stopBirdyAnimation();
+    }
+}
+    // --------- INIT ---------
+    goToStep(1);
+});
+// Add this to your existing JavaScript
+document.getElementById('recommend-button').addEventListener('click', async function() {
+    const message = document.querySelector('.message-input').value;
+    if (!message.trim()) {
+        alert('Please write a message first!');
+        return;
+    }
+
+    // Show loading state
+    const recommendButton = this;
+    recommendButton.disabled = true;
+    recommendButton.textContent = 'Analyzing...';
+
+    try {
+        // Step 1: Analyze message
+        const analysisResponse = await fetch('/analyze_message/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: JSON.stringify({ message: message })
+        });
+        
+        const analysisData = await analysisResponse.json();
+        
+        if (analysisData.error) {
+            throw new Error(analysisData.error);
+        }
+
+        // Step 2: Get recommendations
+        const recResponse = await fetch('/get_recommendations/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: JSON.stringify({
+                relationship: analysisData.relationship,
+                sentiment: analysisData.sentiment
+            })
+        });
+        
+        const recData = await recResponse.json();
+        
+        if (recData.error) {
+            throw new Error(recData.error);
+        }
+
+        // Display results
+        displayRecommendations(analysisData, recData);
+        
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('recommendation-results').innerHTML = `
+            <div class="error">Error: ${error.message}</div>
+        `;
+    } finally {
+        recommendButton.disabled = false;
+        recommendButton.textContent = 'Recommend Meme and Song';
+    }
+});
+
+function displayRecommendations(analysis, recommendations) {
+    const resultsDiv = document.getElementById('recommendation-results');
+    
+    // Display analysis results
+    let html = `
+        <div class="analysis-result">
+            <h4>Analysis Results:</h4>
+            <p>Relationship: ${analysis.relationship} (${(analysis.relationship_confidence * 100).toFixed(1)}% confidence)</p>
+            <p>Sentiment: ${analysis.sentiment} (${(analysis.sentiment_confidence * 100).toFixed(1)}% confidence)</p>
+        </div>
+    `;
+    
+    // Display song recommendations
+    html += `
+        <div class="song-recommendations">
+            <h4>Recommended Songs:</h4>
+            <div class="song-list">
+    `;
+    
+    recommendations.songs.forEach(song => {
+        html += `
+            <div class="song-item">
+                <p><strong>${song['Title']}</strong> by ${song['Artist']}</p>
+                <p>Genre: ${song['Genre']} | Mood: ${song['Mood'] || 'N/A'}</p>
+            </div>
+        `;
+    });
+    
+    html += `</div></div>`;
+    
+    // Display meme recommendations
+    html += `
+        <div class="meme-recommendations">
+            <h4>Recommended Memes:</h4>
+            <div class="meme-grid">
+    `;
+    
+    recommendations.memes.forEach(meme => {
+        html += `
+            <div class="meme-item">
+                <img src="${meme.image_url}" alt="${meme.description}" style="max-width: 200px;">
+                <p>${meme.description}</p>
+            </div>
+        `;
+    });
+    
+    html += `</div></div>`;
+    
+    resultsDiv.innerHTML = html;
+}
+
+// Helper function to get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+
+{% endblock %}

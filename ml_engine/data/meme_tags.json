@@ -1,0 +1,26 @@
+[
+    {
+        "image_url": "/static/card/images/heart.png",
+        "description": "Romantic heart meme",
+        "suitable_relationships": ["romantic-partners"],
+        "suitable_sentiments": ["positive"]
+    },
+    {
+        "image_url": "/static/card/images/balloon.png",
+        "description": "Fun birthday balloon",
+        "suitable_relationships": ["friends", "parent-child", "siblings"],
+        "suitable_sentiments": ["positive"]
+    },
+    {
+        "image_url": "/static/card/images/flower.png",
+        "description": "Respectful flower meme",
+        "suitable_relationships": ["parent-child", "professional"],
+        "suitable_sentiments": ["positive", "neutral"]
+    },
+    {
+        "image_url": "/static/card/images/cupcake.png",
+        "description": "Funny cupcake meme",
+        "suitable_relationships": ["friends", "siblings"],
+        "suitable_sentiments": ["positive", "neutral"]
+    }
+]
