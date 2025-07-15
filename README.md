@@ -88,8 +88,10 @@ pip install -r requirements.txt
 
 # Run the server
 python manage.py runserver
+```
+---
 
-🌐 Usage
+## 🌐 Usage
 Visit http://127.0.0.1:8000
 
 Choose your favorite color and card border
@@ -111,7 +113,7 @@ Export to PDF
 
 Login and save card history
 
-💖 Creator
+## 💖 Creator
 Anushka Sharma
 🎓 B.Tech, Electrical Engineering | YMCA University
 💼 Frontend + ML Enthusiast | Open Source Contributor
